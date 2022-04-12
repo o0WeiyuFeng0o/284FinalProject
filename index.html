@@ -1,7 +1,113 @@
 <html>
-	<head>
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-	</head>
-	<body>
-  </body>
+
+<head>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+
+<body>
+	<h1>This is the CS284 Final Project</h1>
+	<p>Potential Ideas:
+		Would an interactive boids/flock simulation of humans during Covid be a valid CS284A topic idea? We’re thinking
+		we’d allow users to change “separation” (due to Covid), and perhaps naively label people as Covid positive if
+		they come within 6 feet? As a stretch goal we could include a secondary level of particle simulation for Covid
+		particles emitting from people (though we admittedly know very little about how Covid physically spreads). We
+		could change the size, velocity, and etc of the Covid particles to better visualize the effect. The final
+		deliverable could be used as a tool to study/present the covid spread in different settings (in-doors, outdoors,
+		how many people in the room, distance between people, mask or unmasked).
+		Boids, specifically maybe we can improve upon Crowd Simulation and make it faster/more efficient?
+		Coding Adventure: Boids
+		Coding Adventure: Ant and Slime Simulations
+		Cough particle simulation (Navier-Stokes)
+		https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7351557/
+		Simulation of cough with surfaces/scenes
+		Provide interface to customize parameters
+		With/without mask
+		wind?
+		Air Temperature/humidity
+		Ventilation/no ventilation
+		Simulation with people (boids)
+		Separation
+		Number of people
+		Speed of people
+
+		Title, Summary and Team Members
+		Provide us a descriptive title, 2-3 sentences that summarize your project, and list your three team members.
+		Title: Covid Spread Visualization
+		Summary: We’re attempting to create an interactive visualization of how Covid particles are physically spread
+		through the air under different conditions. We’ll then potentially additionally do human crowd (2D boids)
+		simulation on top of that to see how different conditions in people “pathing” (specifically separation) affect
+		Covid spread.
+		Team Members: Richard Wang, Jordan Wong, Yi-Chen Chen, Weiyu Feng
+		Problem Description
+		Here you should provide the context for your idea. Describe the problem that you are trying to solve, why it is
+		important, where it is challenging. Give us a general idea on how you are going to solve it.
+		We’ll be trying to make a physically accurate simulation of how Covid particles spread and ideally do it in real
+		time so that users can interact with it by changing conditions (masks, wind, humidity, ventilation). This will
+		require an efficient particle simulation algorithm, and especially so if we make it in 3D instead of 2D.
+		Depending on how much time we have left, we’ll then add an additional layer of complexity by incorporating human
+		crowds (2D boids) on top of the cough simulation.
+		Although it may not be 100% accurate to real life, our final deliverable could be used as a tool to
+		study/present the covid spread in different settings.
+		The biggest challenge will likely be getting this all to run in real time at a reasonable frame rate. We’ll
+		likely need to do some simplifications if we can’t figure out ways to optimize our algorithms
+		Goals and Deliverables
+		This is the most important part of your proposal. You should carefully think through what you are trying to
+		accomplish, what results you are going for, and why you think you can accomplish those goals. For example:
+		Since this is a graphics class you will likely define the kind of images you will create (e.g. including a photo
+		of a new lighting effect you will simulate).
+		If you are working on an interactive system, describe what demo you will create.
+		Define how you will measure the quality / performance of your system (e.g. graphs showing speedup, or
+		quantifying accuracy). It may not be possible to define precise target metrics at this time, but we encourage
+		you to try.
+		What questions do you plan to answer with your analysis?
+		You should break this section into two parts: (1) what you plan to deliver, and (2) what you hope to deliver. In
+		(1), describe what you believe you must accomplish to have a successful project and achieve the grade you expect
+		(i.e. your baseline plan -- planning for some unexpected problems would make sense). In (2), describe what you
+		hope to achieve if things go well and you get ahead of schedule (your aspirational plan).
+		Plan To Deliver:
+		2D Cough Particle Simulation
+		Measure framerate for different optimizations?
+		Interactive 2D Cough Particle Simulation
+		With/without mask
+		wind?
+		Air Temperature/humidity
+		Ventilation/no ventilation
+		Interactive 3D Cough Particle Simulation
+		Hope To Deliver:
+		Interactive Human Crowd (2D Boids) Simulation
+		Separation
+		Alignment
+		Cohesion
+		Naive “Coloring/Labeling” of Covid Infected people
+		Interactive Human Crowd (2D Boids) Simulation + 3D Cough Particle Simulation
+		“Coloring/Labeling” of Covid infected people touched by particles
+		Schedule
+		In this section you should organize and plan the tasks and subtasks that your team will execute. Since
+		presentations are ~4 weeks from the due-date of the proposal, you should include a set of tasks for every week.
+		Week 1 (4/11) - research/start implementation
+		2D Cough Particle Simulation
+		Week 2 (4/18) - rough implementation
+		Finalize 2D Cough Particle Simulation
+		Build basic interactive interfaces
+		Week 3 (4/25) - stretch goals / finalizing report
+		Interactive 3D Cough Particle Simulation
+		Add more features in the interfaces
+		Interactive Human Crowd (2D Boids) Simulation
+		Integrate both Human Crowd Simulation and Cough Simulations
+		Week 4 (5/2) - presentation week
+		Resources
+		Hardware: our own machines
+		Software: Unity
+		Cough simulation - Navier-Stokes Equations
+		A 3D model of a person coughing in an indoor environment – how an aerosol cloud travels in the air
+		Simulation shows deadly COVID-19 cough droplets can spread more than three and half metres
+		Human Boids
+		Hierarchical Model for Real Time Simulation of Virtual Human Crowds
+		http://www.cs.uu.nl/docs/vakken/mcrws/papers/15.pdf
+		https://www.washingtonpost.com/graphics/2020/world/corona-simulator/
+
+	</p>
+</body>
+
 </html>
