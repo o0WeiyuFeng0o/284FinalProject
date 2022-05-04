@@ -170,9 +170,15 @@ function startGUI () {
     gui.add(config, 'PAUSED').name('paused').listen();
 
     gui.add({ fun: () => {
-        splatStack.push(parseInt(Math.random() * 20) + 5);
+        splatStack.push(parseInt(Math.random() * 1) + 5);
     } }, 'fun').name('Random splats');
 
+
+    const state = {
+        points: 5,
+    };
+    gui.add(state, "points");
+    
     let bloomFolder = gui.addFolder('Bloom');
     bloomFolder.add(config, 'BLOOM').name('enabled').onFinishChange(updateKeywords);
     bloomFolder.add(config, 'BLOOM_INTENSITY', 0.1, 2.0).name('intensity');
@@ -694,6 +700,11 @@ const advectionShader = compileShader(gl.FRAGMENT_SHADER, `
     ext.supportLinearFiltering ? null : ['MANUAL_FILTERING']
 );
 
+const boundaryShader = compileShader(gl.FRAGMENT_SHADER, `
+    void main () {
+        gl_FragColor = vec4(0.1, 0.0, 0.0, 1.0);
+    }
+`);
 const divergenceShader = compileShader(gl.FRAGMENT_SHADER, `
     precision mediump float;
     precision mediump sampler2D;
@@ -887,6 +898,7 @@ const curlProgram            = new Program(baseVertexShader, curlShader);
 const vorticityProgram       = new Program(baseVertexShader, vorticityShader);
 const pressureProgram        = new Program(baseVertexShader, pressureShader);
 const gradienSubtractProgram = new Program(baseVertexShader, gradientSubtractShader);
+const boundaryProgram = new Program(baseVertexShader, boundaryShader);
 
 const displayMaterial = new Material(baseVertexShader, displayShaderSource);
 
@@ -1078,7 +1090,7 @@ function updateKeywords () {
 
 updateKeywords();
 initFramebuffers();
-multipleSplats(parseInt(Math.random() * 20) + 5);
+// singleSplat();
 
 let lastUpdateTime = Date.now();
 let colorUpdateTimer = 0.0;
@@ -1129,7 +1141,9 @@ function updateColors (dt) {
 
 function applyInputs () {
     if (splatStack.length > 0)
-        multipleSplats(splatStack.pop());
+        if (splatStack.pop() == 1) {
+            singleSplat();
+        }
 
     pointers.forEach(p => {
         if (p.moved) {
@@ -1332,22 +1346,24 @@ function blur (target, temp, iterations) {
 function splatPointer (pointer) {
     let dx = pointer.deltaX * config.SPLAT_FORCE;
     let dy = pointer.deltaY * config.SPLAT_FORCE;
-    splat(pointer.texcoordX, pointer.texcoordY, dx, dy, pointer.color);
+    splat(pointer.texcoordX, pointer.texcoordY, dx, d, pointer.color);
 }
 
+// splat initialization
+function singleSplat() {
+    const color = HSVtoRGB(0.3, 1.0, 1.0);
+    const x = 0.1;
+    const y = 0.5;
+    const dx = 84480;
+    const dy = 0.0;
+    splat(x, y, dx, dy, color);
+}
 function multipleSplats (amount) {
     for (let i = 0; i < amount; i++) {
-        const color = generateColor();
-        color.r *= 10.0;
-        color.g *= 10.0;
-        color.b *= 10.0;
-        const x = Math.random();
-        const y = Math.random();
-        const dx = 1000 * (Math.random() - 0.5);
-        const dy = 1000 * (Math.random() - 0.5);
-        splat(x, y, dx, dy, color);
+        singleSplat();
     }
 }
+
 
 function splat (x, y, dx, dy, color) {
     splatProgram.bind();
@@ -1372,66 +1388,12 @@ function correctRadius (radius) {
     return radius;
 }
 
-canvas.addEventListener('mousedown', e => {
-    let posX = scaleByPixelRatio(e.offsetX);
-    let posY = scaleByPixelRatio(e.offsetY);
-    let pointer = pointers.find(p => p.id == -1);
-    if (pointer == null)
-        pointer = new pointerPrototype();
-    updatePointerDownData(pointer, -1, posX, posY);
-});
-
-canvas.addEventListener('mousemove', e => {
-    let pointer = pointers[0];
-    if (!pointer.down) return;
-    let posX = scaleByPixelRatio(e.offsetX);
-    let posY = scaleByPixelRatio(e.offsetY);
-    updatePointerMoveData(pointer, posX, posY);
-});
-
-window.addEventListener('mouseup', () => {
-    updatePointerUpData(pointers[0]);
-});
-
-canvas.addEventListener('touchstart', e => {
-    e.preventDefault();
-    const touches = e.targetTouches;
-    while (touches.length >= pointers.length)
-        pointers.push(new pointerPrototype());
-    for (let i = 0; i < touches.length; i++) {
-        let posX = scaleByPixelRatio(touches[i].pageX);
-        let posY = scaleByPixelRatio(touches[i].pageY);
-        updatePointerDownData(pointers[i + 1], touches[i].identifier, posX, posY);
-    }
-});
-
-canvas.addEventListener('touchmove', e => {
-    e.preventDefault();
-    const touches = e.targetTouches;
-    for (let i = 0; i < touches.length; i++) {
-        let pointer = pointers[i + 1];
-        if (!pointer.down) continue;
-        let posX = scaleByPixelRatio(touches[i].pageX);
-        let posY = scaleByPixelRatio(touches[i].pageY);
-        updatePointerMoveData(pointer, posX, posY);
-    }
-}, false);
-
-window.addEventListener('touchend', e => {
-    const touches = e.changedTouches;
-    for (let i = 0; i < touches.length; i++)
-    {
-        let pointer = pointers.find(p => p.id == touches[i].identifier);
-        if (pointer == null) continue;
-        updatePointerUpData(pointer);
-    }
-});
 
 window.addEventListener('keydown', e => {
     if (e.code === 'KeyP')
         config.PAUSED = !config.PAUSED;
     if (e.key === ' ')
-        splatStack.push(parseInt(Math.random() * 20) + 5);
+        splatStack.push(1);
 });
 
 function updatePointerDownData (pointer, id, posX, posY) {
