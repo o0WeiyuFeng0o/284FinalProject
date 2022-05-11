@@ -113,6 +113,7 @@ public class Flock : MonoBehaviour {
         for (int i = 0; i < rayDirections.Length; i++) {
             Vector3 dir = cachedTransform.TransformDirection (rayDirections[i]);
             Ray ray = new Ray (position, dir);
+            // Debug.DrawRay(position, dir, Color.green, 2f); // for debugging
             if (!Physics.SphereCast (ray, settings.boundsRadius, settings.collisionAvoidDst, settings.obstacleMask)) {
                 return dir;
             }
